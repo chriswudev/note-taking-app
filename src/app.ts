@@ -14,10 +14,14 @@ app.use(bodyParser.json());
 app.use("/auth", authRoutes);
 app.use("/notes", noteRoutes);
 
-if (process.env.MONGO_URI) {
-  mongoose.connect(process.env.MONGO_URI);
+if (process.env.MONGO_URI && process.env.NODE_ENV !== "test") {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then((res) => console.log("Database Connected!"));
 }
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+export default app;

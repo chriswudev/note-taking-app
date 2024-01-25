@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface INote extends Document {
+export interface INote extends Document {
   title: string;
   body: string;
   tags: string[];
@@ -13,6 +13,8 @@ const NoteSchema: Schema = new Schema({
   tags: { type: [String], default: [] },
   userId: { type: mongoose.Types.ObjectId, required: true },
 });
+
+NoteSchema.index({ title: "text", body: "text", tags: "text" });
 
 const Note = mongoose.model<INote>("Note", NoteSchema);
 

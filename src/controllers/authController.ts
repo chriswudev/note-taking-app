@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { getJwtSecretKey } from "../utils/auth";
 
 const register = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -33,7 +34,7 @@ const login = async (req: Request, res: Response) => {
     return res.status(401).json({ error: "Incorrect password" });
   }
 
-  const token = jwt.sign({ userId: user._id }, "your_secret_key", {
+  const token = jwt.sign({ userId: user._id }, getJwtSecretKey(), {
     expiresIn: "1h",
   });
 
